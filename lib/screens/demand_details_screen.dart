@@ -8,9 +8,8 @@ class DemandDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final demandId = ModalRoute.of(context).settings.arguments as String;
-    final loadedDemand = Provider.of<Demands>(context)
-        .items
-        .firstWhere((element) => element.id == demandId);
+    final loadedDemand =
+        Provider.of<Demands>(context, listen: false).findById(demandId);
     return Scaffold(
       appBar: AppBar(title: Text(loadedDemand.title)),
     );
