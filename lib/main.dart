@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
+
+import './screens/form_overview_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,12 +18,11 @@ class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('my first app'),
-        ),
-        body: Text("fddd"),
+      title: 'MyForms',
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
       ),
+      home: FormOverviewScreen(),
     );
   }
 }
