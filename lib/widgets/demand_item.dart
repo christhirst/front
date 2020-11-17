@@ -38,6 +38,12 @@ class DemandItem extends StatelessWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
+                                IconButton(
+                                  icon: cartIcon(context),
+                                  onPressed: () {
+                                    demand.toggleIsDoneStatus();
+                                  },
+                                ),
                                 Spacer(),
                                 SizedBox(
                                   width: 10,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front/providers/cart.dart';
 import 'package:provider/provider.dart';
 import './screens/demand_overview_screen.dart';
 import './screens/demand_details_screen.dart';
@@ -19,8 +20,15 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      builder: (ctx) => Demands(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => Demands(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Cart(),
+        )
+      ],
       child: MaterialApp(
         title: 'MyForms',
         theme: ThemeData(
