@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import './screens/demand_overview_screen.dart';
 import './screens/demand_details_screen.dart';
 import './providers/demands.dart';
+import './providers/orders.dart';
+import './screens/cart_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,6 +29,9 @@ class MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => Orders(),
         )
       ],
       child: MaterialApp(
@@ -36,6 +41,7 @@ class MyAppState extends State<MyApp> {
         home: DemandOverviewScreen(),
         routes: {
           DemandDetailScreen.routeName: (ctx) => DemandDetailScreen(),
+          CartScreen.routName: (ctx) => CartScreen(),
         },
       ),
     );

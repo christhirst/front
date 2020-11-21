@@ -3,9 +3,27 @@ import 'DemandForm.dart';
 
 class Demands with ChangeNotifier {
   List<DemandForm> _items = [
-    DemandForm(id: "1", title: "Eins", description: "test1", isDone: true),
-    DemandForm(id: "2", title: "Zwei", description: "test2", isDone: false),
-    DemandForm(id: "3", title: "Drei", description: "test3", isDone: false)
+    DemandForm(
+        id: "1",
+        title: "Eins",
+        description: "test1",
+        isDone: true,
+        price: 10,
+        url: "https://google.de"),
+    DemandForm(
+        id: "2",
+        title: "Zwei",
+        description: "test2",
+        isDone: false,
+        price: 20,
+        url: "https://google.de"),
+    DemandForm(
+        id: "3",
+        title: "Drei",
+        description: "test3",
+        isDone: false,
+        price: 30,
+        url: "https://google.de")
   ];
 
   var _showIsDoneOnly = false;

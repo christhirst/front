@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:front/providers/DemandForm.dart';
+import 'package:front/providers/cart.dart';
 import 'package:front/screens/demand_overview_screen.dart';
 import '../widgets/demand_item.dart';
 import '../screens/demand_details_screen.dart';
@@ -14,7 +15,8 @@ class DemandItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final demand = Provider.of<DemandForm>(context);
+    final demand = Provider.of<DemandForm>(context, listen: false);
+    final cart = Provider.of<Cart>(context, listen: false);
     return Card(
         elevation: 5,
         child: new InkWell(
@@ -41,7 +43,11 @@ class DemandItem extends StatelessWidget {
                                 IconButton(
                                   icon: cartIcon(context),
                                   onPressed: () {
-                                    demand.toggleIsDoneStatus();
+                                    cart.addItem(
+                                      demand.id,
+                                      demand.price,
+                                      demand.title,
+                                    );
                                   },
                                 ),
                                 Spacer(),

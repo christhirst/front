@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:front/providers/demands.dart';
-//import 'package:provider/provider.dart';
+import 'package:front/screens/cart_screen.dart';
+import 'package:provider/provider.dart';
 import '../widgets/demands_list.dart';
+import '../widgets/badge.dart';
+import 'package:front/providers/cart.dart';
+import './cart_screen.dart';
 
 enum FilterOptions {
   Favorites,
@@ -45,7 +49,18 @@ class _DemandOverviewScreenState extends State<DemandOverviewScreen> {
                   value: FilterOptions.All,
                 )
               ],
-            )
+            ),
+            Consumer<Cart>(
+                builder: (_, cart, ch) => Badge(
+                      child: ch,
+                      value: cart.itemCount.toString(),
+                    ),
+                child: IconButton(
+                  icon: Icon(Icons.shopping_cart),
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(CartScreen.routName);
+                  },
+                )),
           ],
         ),
         body: DemandsList(_showOnlyIsDone));

@@ -12,6 +12,35 @@ class DemandDetailScreen extends StatelessWidget {
         Provider.of<Demands>(context, listen: false).findById(demandId);
     return Scaffold(
       appBar: AppBar(title: Text(loadedDemand.title)),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              width: double.infinity,
+              height: 300,
+              child: ListView(
+                children: [Text("data"), Text("ff")],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '\$${loadedDemand.price}',
+              style: TextStyle(color: Colors.grey, fontSize: 20),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              loadedDemand.description,
+              textAlign: TextAlign.center,
+              softWrap: true,
+            )
+          ],
+        ),
+      ),
     );
   }
 }
