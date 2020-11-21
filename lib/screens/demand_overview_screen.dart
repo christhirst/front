@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front/providers/demands.dart';
 import 'package:front/screens/cart_screen.dart';
+import 'package:front/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
 import '../widgets/demands_list.dart';
 import '../widgets/badge.dart';
@@ -63,6 +64,7 @@ class _DemandOverviewScreenState extends State<DemandOverviewScreen> {
                 )),
           ],
         ),
+        drawer: AppDrawer(),
         body: DemandsList(_showOnlyIsDone));
   }
 }
