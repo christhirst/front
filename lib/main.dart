@@ -7,6 +7,8 @@ import './providers/demands.dart';
 import './providers/orders.dart';
 import './screens/cart_screen.dart';
 import './screens/orders_screen.dart';
+import './screens/user_demands_screen.dart';
+import './screens/edit_demands_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,7 +45,9 @@ class MyAppState extends State<MyApp> {
         routes: {
           DemandDetailScreen.routeName: (ctx) => DemandDetailScreen(),
           CartScreen.routName: (ctx) => CartScreen(),
-          OrdersScreen.routname: (ctx) => OrdersScreen(),
+          OrdersScreen.routeName: (ctx) => OrdersScreen(),
+          UserDemandsScreen.routeName: (ctx) => UserDemandsScreen(),
+          EditDemandScreen.routeName: (ctx) => EditDemandScreen(),
         },
       ),
     );

@@ -48,6 +48,17 @@ class DemandItem extends StatelessWidget {
                                       demand.price,
                                       demand.title,
                                     );
+                                    Scaffold.of(context).hideCurrentSnackBar();
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text('Added item to cart'),
+                                      duration: Duration(seconds: 2),
+                                      action: SnackBarAction(
+                                        label: 'UNDO',
+                                        onPressed: () {
+                                          cart.removeSingleItem(demand.id);
+                                        },
+                                      ),
+                                    ));
                                   },
                                 ),
                                 Spacer(),
