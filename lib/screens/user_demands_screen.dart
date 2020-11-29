@@ -31,7 +31,7 @@ class UserDemandsScreen extends StatelessWidget {
           itemCount: demandsData.items.length,
           itemBuilder: (_, i) => Column(
             children: [
-              UserDemandsItem(
+              UserDemandsItem(demandsData.items[i].id,
                   demandsData.items[i].title, demandsData.items[i].url),
               Divider(),
             ],

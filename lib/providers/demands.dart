@@ -53,8 +53,27 @@ class Demands with ChangeNotifier {
     notifyListeners();
   } */
 
-  void addDemand() {
-    //_item.add(value);
+  void addDemand(DemandForm demand) {
+    final newDemand = DemandForm(
+        title: demand.title,
+        description: demand.description,
+        price: demand.price,
+        id: DateTime.now().toString());
+    _items.add(newDemand);
     notifyListeners();
+  }
+
+  void updateDemand(String id, DemandForm newDemand) {
+    final demandIndex = _items.indexWhere((demand) => demand.id == id);
+    if (demandIndex >= 0) {
+      _items[demandIndex] = newDemand;
+      notifyListeners();
+    } else {
+      print('..');
+    }
+  }
+
+  void deleteDemand(String id) {
+    _items.removeWhere((demand) => demand.id == id);
   }
 }
