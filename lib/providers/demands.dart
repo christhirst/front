@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'DemandForm.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Demands with ChangeNotifier {
   List<DemandForm> _items = [
@@ -9,21 +11,21 @@ class Demands with ChangeNotifier {
         description: "test1",
         isDone: true,
         price: 10,
-        url: "https://google.de"),
+        url: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png"),
     DemandForm(
         id: "2",
         title: "Zwei",
         description: "test2",
         isDone: false,
         price: 20,
-        url: "https://google.de"),
+        url: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png"),
     DemandForm(
         id: "3",
         title: "Drei",
         description: "test3",
         isDone: false,
         price: 30,
-        url: "https://google.de")
+        url: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png")
   ];
 
   var _showIsDoneOnly = false;
@@ -54,13 +56,26 @@ class Demands with ChangeNotifier {
   } */
 
   void addDemand(DemandForm demand) {
-    final newDemand = DemandForm(
-        title: demand.title,
-        description: demand.description,
-        price: demand.price,
-        id: DateTime.now().toString());
-    _items.add(newDemand);
-    notifyListeners();
+    const url = 'http://localhost:9090/adddemand';
+    http
+        .post(url,
+            body: json.encode({
+              'title': demand.title,
+              'description': demand.description,
+              'url': demand.url,
+              'price': demand.price,
+              'isDone': demand.isDone,
+            }))
+        .then((response) {
+      json.decode(response.body);
+      final newDemand = DemandForm(
+          title: demand.title,
+          description: demand.description,
+          price: demand.price,
+          id: DateTime.now().toString());
+      _items.add(newDemand);
+      notifyListeners();
+    });
   }
 
   void updateDemand(String id, DemandForm newDemand) {

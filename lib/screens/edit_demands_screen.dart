@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class EditDemandScreen extends StatefulWidget {
   static const routeName = '/edit-demand';
+
   @override
   _EditDemandScreenState createState() => _EditDemandScreenState();
 }
@@ -38,16 +39,20 @@ class _EditDemandScreenState extends State<EditDemandScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       final demandId = ModalRoute.of(context).settings.arguments as String;
-      if (demandId != null) {}
-      _editedDemand =
-          Provider.of<Demands>(context, listen: false).findById(demandId);
-      _initValues = {
-        'title': _editedDemand.title,
-        'description': _editedDemand.description,
-        'price': _editedDemand.price.toString(),
-        'url': '',
-      };
-      _imageUrlController.text = _editedDemand.url;
+
+      if (demandId != null) {
+        _editedDemand =
+            Provider.of<Demands>(context, listen: false).findById(demandId);
+
+        _initValues = {
+          'title': _editedDemand.title,
+          'description': _editedDemand.description,
+          'price': _editedDemand.price.toString(),
+          'url': '',
+        };
+
+        _imageUrlController.text = _editedDemand.url;
+      }
     }
     _isInit = false;
     super.didChangeDependencies();
