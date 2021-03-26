@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:front/providers/demands.dart';
 import 'package:front/screens/cart_screen.dart';
 import 'package:front/widgets/app_drawer.dart';
 import 'package:provider/provider.dart';
@@ -7,6 +6,7 @@ import '../widgets/demands_list.dart';
 import '../widgets/badge.dart';
 import 'package:front/providers/cart.dart';
 import './cart_screen.dart';
+import '../providers/demands.dart';
 
 enum FilterOptions {
   Favorites,
@@ -19,7 +19,32 @@ class DemandOverviewScreen extends StatefulWidget {
 }
 
 class _DemandOverviewScreenState extends State<DemandOverviewScreen> {
-  bool _showOnlyIsDone = false;
+  var _showOnlyIsDone = false;
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      _isLoading = true;
+      Provider.of<Demands>(context).fetchAndSetDemands().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     //for system wide filter
@@ -65,6 +90,10 @@ class _DemandOverviewScreenState extends State<DemandOverviewScreen> {
           ],
         ),
         drawer: AppDrawer(),
-        body: DemandsList(_showOnlyIsDone));
+        body: _isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : DemandsList(_showOnlyIsDone));
   }
 }

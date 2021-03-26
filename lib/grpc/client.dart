@@ -3,7 +3,7 @@ import '../proto/generated/data.pbgrpc.dart';
 
 void tt() async {
   final channel = ClientChannel('0.0.0.0',
-      port: 9092,
+      port: 9090,
       options:
           const ChannelOptions(credentials: ChannelCredentials.insecure()));
 

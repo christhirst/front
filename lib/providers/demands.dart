@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:front/models/http_exception.dart';
 import 'DemandForm.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -55,32 +56,60 @@ class Demands with ChangeNotifier {
     notifyListeners();
   } */
 
-  void addDemand(DemandForm demand) {
-    const url = 'http://localhost:9090/adddemand';
-    http
-        .post(url,
-            body: json.encode({
-              'title': demand.title,
-              'description': demand.description,
-              'url': demand.url,
-              'price': demand.price,
-              'isDone': demand.isDone,
-            }))
-        .then((response) {
-      json.decode(response.body);
+  Future<void> fetchAndSetDemands() async {
+    const url = 'http://localhost:9090/users';
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<DemandForm> loadedDemands = [];
+      extractedData.forEach((demId, demData) {
+        loadedDemands.add(DemandForm(
+            id: demId,
+            title: demData['title'],
+            description: demData['description']));
+      });
+      _items = loadedDemands;
+      notifyListeners();
+      print(json.decode(response.body));
+    } catch (error) {
+      throw (error);
+    }
+  }
+
+  Future<void> addDemand(DemandForm demand) async {
+    const url = 'http://localhost:9090/users';
+    try {
+      final response = await http.post(url,
+          body: json.encode({
+            'title': demand.title,
+            'description': demand.description,
+            'url': demand.url,
+            'price': demand.price,
+            'isDone': demand.isDone,
+          }));
+
       final newDemand = DemandForm(
           title: demand.title,
           description: demand.description,
+          url: demand.url,
           price: demand.price,
-          id: DateTime.now().toString());
+          id: json.decode(response.body)['name']);
       _items.add(newDemand);
       notifyListeners();
-    });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  void updateDemand(String id, DemandForm newDemand) {
+  Future<void> updateDemand(String id, DemandForm newDemand) async {
     final demandIndex = _items.indexWhere((demand) => demand.id == id);
     if (demandIndex >= 0) {
+      final url = 'http://localhost:9090/user/$id';
+      await http.patch(url,
+          body: json.encode({
+            'title': newDemand.title,
+            'description': newDemand.description,
+          }));
       _items[demandIndex] = newDemand;
       notifyListeners();
     } else {
@@ -88,7 +117,18 @@ class Demands with ChangeNotifier {
     }
   }
 
-  void deleteDemand(String id) {
-    _items.removeWhere((demand) => demand.id == id);
+  Future<void> deleteDemand(String id) async {
+    final url = 'http://localhost:9090/user/$id';
+    final existingDemandIndex = _items.indexWhere((dema) => dema.id == id);
+    var existingDemand = _items[existingDemandIndex];
+    _items.removeAt(existingDemandIndex);
+    notifyListeners();
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(existingDemandIndex, existingDemand);
+      notifyListeners();
+      throw HttpException('Could not delete demand.');
+    }
+    existingDemand = null;
   }
 }

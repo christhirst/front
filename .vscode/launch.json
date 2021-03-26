@@ -5,12 +5,7 @@
       "name": "front",
       "request": "launch",
       "type": "dart",
-      "args": [
-        "-d",
-        "chrome",
-        "--web-port",
-        "8000"
-      ]
+      "args": ["-d", "chrome", "--web-port", "8000"]
     }
   ]
 }

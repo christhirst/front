@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:front/providers/DemandForm.dart';
 import 'package:front/providers/cart.dart';
-import 'package:front/screens/demand_overview_screen.dart';
-import '../widgets/demand_item.dart';
 import '../screens/demand_details_screen.dart';
 import '../widgets/isdone_icon.dart';
 
