@@ -1,16 +1,20 @@
-import 'dart:convert';
+import 'dart:html';
 import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:dio/dio.dart';
-//import '../models/htt';
 
 class Auth with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
   String _userId;
   Response response;
+
   bool get isAuth {
     return token != null;
+  }
+
+  String get userId {
+    return _userId;
   }
 
   String get token {
@@ -33,6 +37,7 @@ class Auth with ChangeNotifier {
         'password': password,
         'returnSecureToken': true
       });
+      print(response.statusCode);
 
       if (response.statusCode != 200) {
         throw HttpException(response.statusMessage);

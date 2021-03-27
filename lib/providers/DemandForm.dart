@@ -26,17 +26,17 @@ class DemandForm with ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleIsDoneStatus() async {
+  void toggleIsDoneStatus(String token, String userId) async {
     final oldStatus = isDone;
 
     isDone = !isDone;
     notifyListeners();
-    final url = 'http://';
+    final url = 'http://$userId/$token';
     try {
-      final response = await http.patch(url,
-          body: json.encode({
-            'isDone': isDone,
-          }));
+      final response = await http.put(url,
+          body: json.encode(
+            isDone,
+          ));
       if (response.statusCode >= 400) {
         _setDoneValue(oldStatus);
       }

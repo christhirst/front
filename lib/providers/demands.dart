@@ -28,8 +28,11 @@ class Demands with ChangeNotifier {
         price: 30,
         url: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png")
   ];
+  String authToken;
 
-  var _showIsDoneOnly = false;
+  //var _showIsDoneOnly = false;
+
+  Demands(this.authToken, this._items);
 
   List<DemandForm> get items {
     /*    if (_showIsDoneOnly) {
@@ -57,16 +60,20 @@ class Demands with ChangeNotifier {
   } */
 
   Future<void> fetchAndSetDemands() async {
-    const url = 'http://localhost:9090/users';
+    final url = 'http://localhost:9090/users?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<DemandForm> loadedDemands = [];
+      if (extractedData == null) {
+        return;
+      }
       extractedData.forEach((demId, demData) {
         loadedDemands.add(DemandForm(
-            id: demId,
-            title: demData['title'],
-            description: demData['description']));
+          id: demId,
+          title: demData['title'],
+          description: demData['description'],
+        ));
       });
       _items = loadedDemands;
       notifyListeners();
@@ -77,7 +84,7 @@ class Demands with ChangeNotifier {
   }
 
   Future<void> addDemand(DemandForm demand) async {
-    const url = 'http://localhost:9090/users';
+    final url = 'http://localhost:9090/users?auth=$authToken';
     try {
       final response = await http.post(url,
           body: json.encode({
@@ -104,7 +111,7 @@ class Demands with ChangeNotifier {
   Future<void> updateDemand(String id, DemandForm newDemand) async {
     final demandIndex = _items.indexWhere((demand) => demand.id == id);
     if (demandIndex >= 0) {
-      final url = 'http://localhost:9090/user/$id';
+      final url = 'http://localhost:9090/user/$id?auth=$authToken';
       await http.patch(url,
           body: json.encode({
             'title': newDemand.title,
@@ -118,7 +125,7 @@ class Demands with ChangeNotifier {
   }
 
   Future<void> deleteDemand(String id) async {
-    final url = 'http://localhost:9090/user/$id';
+    final url = 'http://localhost:9090/user/$id?auth=$authToken';
     final existingDemandIndex = _items.indexWhere((dema) => dema.id == id);
     var existingDemand = _items[existingDemandIndex];
     _items.removeAt(existingDemandIndex);

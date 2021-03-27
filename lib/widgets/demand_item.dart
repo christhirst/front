@@ -4,6 +4,7 @@ import 'package:front/providers/DemandForm.dart';
 import 'package:front/providers/cart.dart';
 import '../screens/demand_details_screen.dart';
 import '../widgets/isdone_icon.dart';
+import '../providers/auth.dart';
 
 class DemandItem extends StatelessWidget {
   /*  final String id;
@@ -15,6 +16,7 @@ class DemandItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final demand = Provider.of<DemandForm>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final authData = Provider.of<Auth>(context, listen: false);
     return Card(
         elevation: 5,
         child: new InkWell(
@@ -67,7 +69,8 @@ class DemandItem extends StatelessWidget {
                                 IconButton(
                                   icon: changeIcon(context),
                                   onPressed: () {
-                                    demand.toggleIsDoneStatus();
+                                    demand.toggleIsDoneStatus(
+                                        authData.token, authData.userId);
                                   },
                                 ),
                                 SizedBox(

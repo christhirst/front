@@ -30,15 +30,22 @@ class MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider.value(value: Auth()),
-          ChangeNotifierProvider(
-            create: (ctx) => Demands(),
+          ChangeNotifierProvider.value(
+            value: Auth(),
+          ),
+          ChangeNotifierProxyProvider<Auth, Demands>(
+            create: null,
+            update: (ctx, auth, previousDemands) => Demands(
+              auth.token,
+              previousDemands == null ? [] : previousDemands.items,
+            ),
           ),
           ChangeNotifierProvider(
             create: (ctx) => Cart(),
           ),
-          ChangeNotifierProvider(
-            create: (ctx) => Orders(),
+          ChangeNotifierProxyProvider<Auth, Orders>(
+            create: null,
+            update: (ctx, auth, previousOrders) => Orders(auth.token, previousOrders== null ? [] : previousOrders.orders,
           )
         ],
         child: Consumer<Auth>(
