@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:io';
 import 'dart:math';
 
@@ -190,7 +191,6 @@ class _AuthCardState extends State<AuthCard> {
                     if (value.isEmpty || !value.contains('@')) {
                       return 'Invalid email!';
                     }
-                    return null;
                     return null;
                   },
                   onSaved: (value) {
